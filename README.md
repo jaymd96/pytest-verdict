@@ -28,7 +28,7 @@ pip install jaymd96-pytest-verdict
 pytest --cluster
 
 # With output files for CI integration
-pytest --cluster --agent-output report.jsonl --cluster-output clusters.txt
+pytest --cluster --verdict-output report.jsonl --cluster-output clusters.txt
 ```
 
 If Claude Code is installed, you get a clustered failure report. If not, you get a clear message and the raw structured JSONL.
@@ -37,10 +37,10 @@ If Claude Code is installed, you get a clustered failure report. If not, you get
 
 ```bash
 # Emit structured JSONL without clustering
-pytest --agent-json --agent-output report.jsonl
+pytest --verdict --verdict-output report.jsonl
 
 # Control verbosity with token budget
-pytest --agent-json --agent-output report.jsonl --token-budget 500
+pytest --verdict --verdict-output report.jsonl --token-budget 500
 ```
 
 ### Standalone clustering
@@ -57,7 +57,7 @@ python -m pytest_verdict.cluster report.jsonl
 
 ```markdown
 When running tests, use:
-  pytest --cluster --agent-output /tmp/test-report.jsonl --cluster-output /tmp/clusters.txt
+  pytest --cluster --verdict-output /tmp/test-report.jsonl --cluster-output /tmp/clusters.txt
 Read /tmp/clusters.txt for failure analysis. If clustering fails, read /tmp/test-report.jsonl directly.
 ```
 
@@ -144,9 +144,9 @@ VERDICT: FAIL | 6 passed, 4 failed, 1 skipped | 0.22s
 
 | Flag | Description |
 |------|-------------|
-| `--agent-json` | Enable structured JSONL output |
-| `--agent-output PATH` | Write JSONL to file (default: stderr) |
-| `--cluster` | Cluster failures via psclaude (implies `--agent-json`) |
+| `--verdict` | Enable structured JSONL output |
+| `--verdict-output PATH` | Write verdict JSONL to file (default: stderr) |
+| `--cluster` | Cluster failures via psclaude (implies `--verdict`) |
 | `--cluster-output PATH` | Write cluster report to file (default: stderr) |
 | `--cluster-timeout N` | Max seconds for Claude Code response (default: 120) |
 | `--token-budget N` | Control JSONL verbosity (0 = unlimited) |

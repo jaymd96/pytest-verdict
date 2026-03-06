@@ -1,7 +1,7 @@
 """Example test file to demonstrate pytest-verdict output.
 
 Run with:
-    pytest examples/test_demo.py --agent-json --agent-output report.jsonl
+    pytest examples/test_demo.py --verdict --verdict-output report.jsonl
 """
 
 import warnings

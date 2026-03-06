@@ -12,10 +12,10 @@ Two-phase architecture, self-contained:
 
 Usage:
   # Phase 1 only -- structured JSONL
-  pytest --agent-json --agent-output report.jsonl
+  pytest --verdict --verdict-output report.jsonl
 
   # Full pipeline -- extraction + clustering in one command
-  pytest --agent-json --cluster
+  pytest --verdict --cluster
 """
 
 import json
@@ -47,18 +47,18 @@ BUDGET_VERDICT = 100  # summary line only
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
-    group = parser.getgroup("agent", "LLM agent output")
+    group = parser.getgroup("verdict", "LLM-optimised test output")
     group.addoption(
-        "--agent-json",
+        "--verdict",
         action="store_true",
         default=False,
         help="Emit structured JSONL output optimised for LLM consumption.",
     )
     group.addoption(
-        "--agent-output",
+        "--verdict-output",
         metavar="PATH",
         default=None,
-        help="Write agent JSONL to a file instead of stderr.",
+        help="Write verdict JSONL to a file instead of stderr.",
     )
     group.addoption(
         "--token-budget",
@@ -76,7 +76,7 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         default=False,
         help=(
             "Cluster test failures by root cause using Claude Code CLI. "
-            "Implies --agent-json. Requires Claude Code to be installed "
+            "Implies --verdict. Requires Claude Code to be installed "
             "(falls back to raw JSONL if unavailable)."
         ),
     )
@@ -95,13 +95,13 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 
 def pytest_configure(config: pytest.Config) -> None:
-    # --cluster implies --agent-json
-    wants_agent = config.getoption("agent_json", default=False)
+    # --cluster implies --verdict
+    wants_verdict = config.getoption("verdict", default=False)
     wants_cluster = config.getoption("cluster", default=False)
 
-    if wants_agent or wants_cluster:
-        plugin = AgentReporter(config, cluster=wants_cluster)
-        config.pluginmanager.register(plugin, "agent_reporter")
+    if wants_verdict or wants_cluster:
+        plugin = VerdictReporter(config, cluster=wants_cluster)
+        config.pluginmanager.register(plugin, "verdict_reporter")
 
 
 # ---------------------------------------------------------------------------
@@ -131,7 +131,7 @@ class FailureRecord:
 
 
 @dataclass(eq=False)
-class AgentReporter:
+class VerdictReporter:
     config: pytest.Config
     cluster: bool = False
     failures: list[FailureRecord] = field(default_factory=list)
@@ -148,7 +148,7 @@ class AgentReporter:
 
     @property
     def output_path(self) -> str | None:
-        return self.config.getoption("agent_output", default=None)
+        return self.config.getoption("verdict_output", default=None)
 
     @property
     def cluster_timeout(self) -> int:

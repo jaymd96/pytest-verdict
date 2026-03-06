@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "jaymd96" }]
-keywords = ["pytest", "testing", "llm", "claude", "structured-output", "psclaude"]
+keywords = ["pytest", "testing", "llm", "verdict", "structured-output", "psclaude"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Framework :: Pytest",

@@ -22,13 +22,13 @@ def run_pytest_verdict(
     extra_args: list[str] | None = None,
     tmp_path: Path,
 ) -> list[dict]:
-    """Run pytest with --agent-json on a test file and return parsed JSONL."""
+    """Run pytest with --verdict on a test file and return parsed JSONL."""
     output_file = tmp_path / "report.jsonl"
     cmd = [
         sys.executable, "-m", "pytest",
         str(test_file),
-        "--agent-json",
-        "--agent-output", str(output_file),
+        "--verdict",
+        "--verdict-output", str(output_file),
         "-q",
         *(extra_args or []),
     ]
@@ -42,7 +42,7 @@ def run_pytest_verdict(
 # ---------------------------------------------------------------------------
 
 
-class TestAgentJsonOutput:
+class TestVerdictJsonOutput:
 
     def test_first_line_is_summary(self, tmp_path):
         records = run_pytest_verdict(EXAMPLES_DIR / "test_demo.py", tmp_path=tmp_path)
@@ -295,14 +295,14 @@ class TestCompactReportFormat:
 
 class TestClusterFlag:
 
-    def test_cluster_implies_agent_json(self, tmp_path):
+    def test_cluster_implies_verdict(self, tmp_path):
         output_file = tmp_path / "report.jsonl"
         subprocess.run(
             [
                 sys.executable, "-m", "pytest",
                 str(EXAMPLES_DIR / "test_demo.py"),
                 "--cluster",
-                "--agent-output", str(output_file),
+                "--verdict-output", str(output_file),
                 "-q",
             ],
             capture_output=True,

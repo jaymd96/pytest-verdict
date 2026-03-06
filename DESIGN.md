@@ -42,13 +42,13 @@ If clustering seems wrong, the raw structured data is the fallback.
 
 ```
 # Direct pipe — Claude Code as unix utility
-pytest --agent-json | claude -p "cluster these test failures by root cause"
+pytest --verdict | claude -p "cluster these test failures by root cause"
 
 # Via wrapper script with budget control
-pytest-verdict run --token-budget 2000 --cluster-model haiku
+pytest --verdict --token-budget 2000
 
 # In CI/CD
-pytest --agent-json --token-budget 500 > test-report.jsonl
+pytest --verdict --token-budget 500 > test-report.jsonl
 cat test-report.jsonl | claude -p "$(cat .claude/prompts/test-analysis.md)"
 ```
 

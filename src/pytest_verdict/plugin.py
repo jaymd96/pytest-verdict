@@ -224,14 +224,7 @@ class AgentReporter:
 
     def _run_clustering(self, jsonl_text: str) -> None:
         """Run Phase 2 clustering via psclaude."""
-        try:
-            from psclaude import detect
-        except ImportError:
-            self._write_cluster_output(
-                "Clustering skipped: jaymd96-psclaude not installed.\n"
-                "Install with: pip install jaymd96-psclaude\n"
-            )
-            return
+        from psclaude import detect
 
         from pytest_verdict.cluster import cluster_failures
 

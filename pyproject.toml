@@ -24,10 +24,6 @@ classifiers = [
 ]
 dependencies = [
     "pytest>=7.0",
-]
-
-[project.optional-dependencies]
-cluster = [
     "jaymd96-psclaude>=0.2.1",
 ]
 

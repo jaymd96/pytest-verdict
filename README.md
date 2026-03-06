@@ -16,11 +16,7 @@ The clustering runs with bundled extensions -- a domain-specific CLAUDE.md and t
 ## Install
 
 ```bash
-# Phase 1 only (structured JSONL output)
 pip install jaymd96-pytest-verdict
-
-# Phase 1 + Phase 2 (with psclaude for clustering)
-pip install jaymd96-pytest-verdict[cluster]
 ```
 
 ## Usage
@@ -159,5 +155,5 @@ VERDICT: FAIL | 6 passed, 4 failed, 1 skipped | 0.22s
 
 - Python >= 3.11
 - pytest >= 7.0
-- [jaymd96-psclaude](https://pypi.org/project/jaymd96-psclaude/) >= 0.1.0 (optional, for `--cluster`)
-- Claude Code CLI (optional, for `--cluster`): `npm install -g @anthropic-ai/claude-code`
+- [jaymd96-psclaude](https://pypi.org/project/jaymd96-psclaude/) >= 0.2.1 (installed automatically)
+- Claude Code CLI (for `--cluster`): `npm install -g @anthropic-ai/claude-code`

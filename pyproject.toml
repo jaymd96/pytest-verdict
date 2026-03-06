@@ -24,7 +24,7 @@ classifiers = [
 ]
 dependencies = [
     "pytest>=7.0",
-    "jaymd96-psclaude>=0.2.1",
+    "jaymd96-psclaude>=0.2.3",
 ]
 
 [project.entry-points.pytest11]
@@ -48,7 +48,7 @@ packages = ["src/pytest_verdict"]
 dependencies = [
     "pytest",
     "pytest-cov",
-    "jaymd96-psclaude>=0.2.1",
+    "jaymd96-psclaude>=0.2.3",
 ]
 
 [tool.hatch.envs.default.scripts]

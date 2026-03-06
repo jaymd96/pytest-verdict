@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jaymd96-pytest-verdict"
+dynamic = ["version"]
+description = "LLM-optimised test output for pytest -- structured JSONL, deduplicated warnings, adaptive token budgets, and failure clustering via Claude Code."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "jaymd96" }]
+keywords = ["pytest", "testing", "llm", "claude", "structured-output", "psclaude"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "pytest>=7.0",
+]
+
+[project.optional-dependencies]
+cluster = [
+    "jaymd96-psclaude>=0.1.0",
+]
+
+[project.entry-points.pytest11]
+verdict = "pytest_verdict.plugin"
+
+[project.scripts]
+pytest-verdict-cluster = "pytest_verdict.cluster:main"
+
+[project.urls]
+Homepage = "https://github.com/jaymd96/pytest-verdict"
+Source = "https://github.com/jaymd96/pytest-verdict"
+Issues = "https://github.com/jaymd96/pytest-verdict/issues"
+
+[tool.hatch.version]
+path = "src/pytest_verdict/__about__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytest_verdict"]
+
+[tool.hatch.envs.default]
+dependencies = ["pytest", "pytest-cov", "jaymd96-psclaude>=0.1.0"]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest tests/ -v {args}"
+cov = "pytest tests/ --cov=pytest_verdict --cov-report=term-missing {args}"
+
+[tool.hatch.envs.lint]
+dependencies = ["ruff"]
+
+[tool.hatch.envs.lint.scripts]
+check = "ruff check src/ tests/"
+fmt = "ruff format src/ tests/"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

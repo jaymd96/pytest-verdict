@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 cluster = [
-    "jaymd96-psclaude>=0.1.0",
+    "jaymd96-psclaude>=0.2.1",
 ]
 
 [project.entry-points.pytest11]
@@ -52,7 +52,7 @@ packages = ["src/pytest_verdict"]
 dependencies = [
     "pytest",
     "pytest-cov",
-    "jaymd96-psclaude>=0.1.0",
+    "jaymd96-psclaude>=0.2.1",
 ]
 
 [tool.hatch.envs.default.scripts]

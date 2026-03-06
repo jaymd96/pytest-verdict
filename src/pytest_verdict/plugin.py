@@ -24,7 +24,7 @@ import sys
 import time
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -477,7 +477,7 @@ class AgentReporter:
             "exit_code": exitstatus,
             "counts": dict(self.outcomes),
             "duration_s": round(duration, 3),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "python_version": (
                 f"{sys.version_info.major}.{sys.version_info.minor}"
                 f".{sys.version_info.micro}"

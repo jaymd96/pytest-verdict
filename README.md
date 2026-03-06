@@ -157,7 +157,7 @@ VERDICT: FAIL | 6 passed, 4 failed, 1 skipped | 0.22s
 
 ## Requirements
 
-- Python >= 3.10
+- Python >= 3.11
 - pytest >= 7.0
 - [jaymd96-psclaude](https://pypi.org/project/jaymd96-psclaude/) >= 0.1.0 (optional, for `--cluster`)
 - Claude Code CLI (optional, for `--cluster`): `npm install -g @anthropic-ai/claude-code`

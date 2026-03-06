@@ -5,6 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import psclaude
 import pytest
 
 EXAMPLES_DIR = Path(__file__).parent.parent / "examples"
@@ -172,15 +173,6 @@ class TestWarningDeduplication:
 # ---------------------------------------------------------------------------
 
 
-try:
-    import psclaude
-
-    _has_psclaude = True
-except ImportError:
-    _has_psclaude = False
-
-
-@pytest.mark.skipif(not _has_psclaude, reason="psclaude requires Python 3.11+")
 class TestPsclaudeDetection:
 
     def test_detect_returns_info(self):

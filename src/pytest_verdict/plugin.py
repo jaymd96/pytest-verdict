@@ -140,6 +140,8 @@ class VerdictReporter:
     collection_errors: list[str] = field(default_factory=list)
     session_start: float = field(default_factory=time.monotonic)
     _test_durations: dict[str, float] = field(default_factory=dict)
+    _verdict: str = ""
+    _duration: float = 0.0
 
     @property
     def token_budget(self) -> float:
@@ -206,6 +208,8 @@ class VerdictReporter:
 
     def pytest_sessionfinish(self, session: pytest.Session, exitstatus: int) -> None:
         duration = time.monotonic() - self.session_start
+        self._verdict = "PASS" if exitstatus == 0 else "FAIL"
+        self._duration = duration
         lines = self._build_output(duration, exitstatus)
 
         output_text = "\n".join(lines) + "\n"
@@ -271,7 +275,14 @@ class VerdictReporter:
             sys.stderr.write(text)
 
     def pytest_terminal_summary(self, terminalreporter) -> None:
-        pass
+        parts = [f"{v} {k}" for k, v in self.outcomes.items() if v > 0]
+        line = f"VERDICT: {self._verdict} | {', '.join(parts)} | {self._duration:.2f}s"
+
+        if self.output_path:
+            line += f" | verdict written to {self.output_path}"
+
+        terminalreporter.write_line("")
+        terminalreporter.write_line(line, bold=True)
 
     # -- extraction ----------------------------------------------------------
 

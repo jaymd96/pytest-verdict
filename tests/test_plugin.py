@@ -293,6 +293,46 @@ class TestCompactReportFormat:
 # ---------------------------------------------------------------------------
 
 
+class TestTerminalSummary:
+
+    def test_verdict_line_in_terminal_output(self, tmp_path):
+        output_file = tmp_path / "report.jsonl"
+        result = subprocess.run(
+            [
+                sys.executable, "-m", "pytest",
+                str(EXAMPLES_DIR / "test_demo.py"),
+                "--verdict",
+                "--verdict-output", str(output_file),
+                "-q",
+                "--override-ini=testpaths=",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        assert "VERDICT: FAIL" in result.stdout
+        assert str(output_file) in result.stdout
+
+    def test_passing_suite_shows_verdict_pass(self, tmp_path):
+        test_file = tmp_path / "test_ok.py"
+        test_file.write_text("def test_one(): pass\ndef test_two(): pass\n")
+        output_file = tmp_path / "report.jsonl"
+        result = subprocess.run(
+            [
+                sys.executable, "-m", "pytest",
+                str(test_file),
+                "--verdict",
+                "--verdict-output", str(output_file),
+                "-q",
+                "--override-ini=testpaths=",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        assert "VERDICT: PASS" in result.stdout
+
+
 class TestClusterFlag:
 
     def test_cluster_implies_verdict(self, tmp_path):

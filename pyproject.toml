@@ -50,7 +50,11 @@ path = "src/pytest_verdict/__about__.py"
 packages = ["src/pytest_verdict"]
 
 [tool.hatch.envs.default]
-dependencies = ["pytest", "pytest-cov", "jaymd96-psclaude>=0.1.0"]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "jaymd96-psclaude>=0.1.0; python_version >= '3.11'",
+]
 
 [tool.hatch.envs.default.scripts]
 test = "pytest tests/ -v {args}"

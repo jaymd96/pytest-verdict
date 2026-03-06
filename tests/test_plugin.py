@@ -172,19 +172,24 @@ class TestWarningDeduplication:
 # ---------------------------------------------------------------------------
 
 
+try:
+    import psclaude
+
+    _has_psclaude = True
+except ImportError:
+    _has_psclaude = False
+
+
+@pytest.mark.skipif(not _has_psclaude, reason="psclaude requires Python 3.11+")
 class TestPsclaudeDetection:
 
     def test_detect_returns_info(self):
-        from psclaude import ClaudeInfo, detect
-
-        info = detect(force=True)
-        assert isinstance(info, ClaudeInfo)
+        info = psclaude.detect(force=True)
+        assert isinstance(info, psclaude.ClaudeInfo)
 
     def test_detect_is_cached(self):
-        from psclaude import detect
-
-        info1 = detect()
-        info2 = detect()
+        info1 = psclaude.detect()
+        info2 = psclaude.detect()
         assert info1 is info2
 
 
